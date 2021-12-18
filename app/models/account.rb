@@ -3,5 +3,8 @@ class Account < ApplicationRecord
   DEFAULT_LOCALE = "en"
   
   has_many :users
+  has_many :teams
+  has_many :locations
+  has_many :jobs
 
 end

@@ -11,6 +11,12 @@ Rails.application.routes.draw do
   constraints lambda { |req| req.format == :json } do
     get '/timezones' => "application#available_timezones"
 
+    resources :jobs, only: [:create, :index, :show, :update, :destroy], param: :job_id do
+      member do
+        post "activate"
+        post "deactivate"
+      end
+    end
   end
 
   constraints lambda { |req| req.format == :html && !req.path.starts_with?("/rails/active_storage") && !req.path.starts_with?("/power")} do

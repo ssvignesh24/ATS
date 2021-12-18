@@ -10,3 +10,6 @@ import "channels"
 // Rails.start()
 ActiveStorage.start()
 
+
+require("trix")
+require("@rails/actiontext")
