@@ -1,0 +1,1 @@
+= link_to ENV['HOST'] + "Complete profile", ENV['HOST'] + url_for(only_path: true, action: 'accept', controller: 'account_invites', trailing_slash: false, token: @token, email: @invitation.email)

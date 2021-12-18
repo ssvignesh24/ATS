@@ -1,0 +1,45 @@
+.container.mx-auto.flex.justify-center.items-center.h-full.flex-col
+  .text-2xl.font-medium.inline-block Complete your profile
+  .session-container.shadow.p-7.mt-5
+    - if @errors[:general].present?
+      .p-3.bg-red-500.bg-opacity-10.border.border-red-500.rounded.w-full.mb-5
+        = @errors[:general]
+    = form_tag invitation_accept_path do
+      input type="hidden" name="token" value=params[:token]
+      input type="hidden" name="email" value=params[:email]
+      .w-full.mb-3
+        p.mb-1.font-mediumx Company name
+        input.rounded.border.border-gray-500.py-3.w-full type="text" name="user[account_name]" placeholder=t('company_name_hint') value=@data[:account_name]
+        - if @errors[:account_name]
+          p.text-error.text-sm.mt-1 = @errors[:account_name]
+      .w-full.mb-3
+        p.mb-1.font-mediumx Your name
+        input.rounded.border.border-gray-500.py-3.w-full type="text" name="user[name]" placeholder=t('name_hint') value=@data[:name]
+        - if @errors[:name]
+          p.text-error.text-sm.mt-1 = @errors[:name]
+      .w-full.mb-3
+        p.mb-1.font-mediumx Email
+        input.rounded.border.border-gray-500.py-3.w-full.bg-gray-100.cursor-not-allowed type="text" value=params[:email] disabled="" placeholder=t('email_hint')
+      .w-full.mb-3
+        p.mb-1.font-mediumx Password
+        input.rounded.border.border-gray-500.py-3.w-full type="password" name="user[password]" placeholder="Password"
+        - if @errors[:password]
+          p.text-error.text-sm.mt-1 = @errors[:password]
+      / .w-full.mb-3
+      /   .w-full.flex
+      /     .w-6/12
+      /       p.mb-1.font-mediumx Choose a plan
+      /     .w-6/12.text-right.text-green-500.text-sm
+      /       = link_to "Plan details", "#"
+      /   select.rounded.border.border-gray-500.py-3.w-full type="text" name="user[plan_id]"
+      /     option Select a plan
+      /     - Plan.active.each do |plan|
+      /       - if @data[:plan_id]&.to_i == plan.id
+      /         option value=plan.id selected="" = plan.name 
+      /       - else
+      /         option value=plan.id = plan.name
+      /   - if @errors[:plan]
+      /     p.text-red-500.text-sm.mt-1 = @errors[:plan]
+
+      button.w-full.btn-primary.p-3.mt-3 Complete signup
+
