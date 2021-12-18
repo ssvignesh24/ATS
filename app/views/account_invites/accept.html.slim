@@ -25,21 +25,5 @@
         input.rounded.border.border-gray-500.py-3.w-full type="password" name="user[password]" placeholder="Password"
         - if @errors[:password]
           p.text-error.text-sm.mt-1 = @errors[:password]
-      / .w-full.mb-3
-      /   .w-full.flex
-      /     .w-6/12
-      /       p.mb-1.font-mediumx Choose a plan
-      /     .w-6/12.text-right.text-green-500.text-sm
-      /       = link_to "Plan details", "#"
-      /   select.rounded.border.border-gray-500.py-3.w-full type="text" name="user[plan_id]"
-      /     option Select a plan
-      /     - Plan.active.each do |plan|
-      /       - if @data[:plan_id]&.to_i == plan.id
-      /         option value=plan.id selected="" = plan.name 
-      /       - else
-      /         option value=plan.id = plan.name
-      /   - if @errors[:plan]
-      /     p.text-red-500.text-sm.mt-1 = @errors[:plan]
-
       button.w-full.btn-primary.p-3.mt-3 Complete signup
 

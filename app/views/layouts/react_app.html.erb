@@ -10,9 +10,13 @@
     
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'app', 'data-turbolinks-track': 'reload' %>
+
+    <script>
+      window._currentUser = <%= user_hash.to_json.html_safe %>;
+    </script>
+    
   </head>
 
   <body>
-    <%= yield %>
   </body>
 </html>
