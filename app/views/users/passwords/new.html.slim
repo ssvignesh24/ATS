@@ -1,0 +1,12 @@
+.container.mx-auto.flex.justify-center.items-center.h-full.flex-col style="top: 10vh"
+  .text-2xl.font-medium.inline-block Forgot your password?
+  .session-container.shadow.p-7.mt-5
+    = render "users/shared/error_messages", resource: resource
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      .w-full.mt-2
+        p.mb-1 Email
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input-primary p-3 w-full', placeholder: t('email_hint')
+      
+      .w-full.mt-5
+        button.w-full.btn-primary.font-medium.py-3 Send me reset password instructions
+    = render "users/shared/links"
