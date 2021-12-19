@@ -10,6 +10,8 @@ import StepTwo from "./step_two";
 import StepThree from "./step_three";
 import StepFour from "./step_four";
 
+import JobsClient from "../../../services/jobs";
+
 const jobReducer = (state, action) => {
   switch (action.type) {
     case "step_one":
@@ -38,10 +40,40 @@ const jobReducer = (state, action) => {
   }
 };
 
-export default function ({ children }) {
+export default function () {
+  const jobsClient = new JobsClient();
+
   const [state, setState] = useState("ready");
   const [currentStep, setCurrentStep] = useState(1);
   const [job, jobDispatch] = useReducer(jobReducer, {});
+
+  useEffect(() => () => jobsClient.cancel(), []);
+
+  const createJob = () => {
+    const payload = {
+      title: job.title,
+      summary: job.summary,
+      team_id: job.team.value,
+      min_experience: job.minExperience,
+      max_experience: job.maxExperience,
+      locations: job.locations,
+      open_positions_count: job.openPositionsCount,
+      remote: job.remote.value,
+      employment_type: job.employmentType.value,
+      degrees: job.degrees.map((d) => d.value),
+      description: job.description,
+    };
+    jobsClient
+      .create(payload)
+      .then(({ data }) => {
+        if (!data.status) {
+          setState("error");
+          return;
+        }
+        setState("created");
+      })
+      .catch((r) => jobsClient.handleError(r));
+  };
 
   return (
     <div className="container mx-auto">
@@ -80,7 +112,7 @@ export default function ({ children }) {
               <StepFour
                 job={job}
                 dispatch={jobDispatch}
-                nextStep={() => {}}
+                nextStep={createJob}
                 prevStep={() => setCurrentStep(3)}></StepFour>
             )}
           </div>

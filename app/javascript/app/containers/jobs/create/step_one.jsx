@@ -7,7 +7,10 @@ import InputTextField from "../../../components/fields/Text";
 import TextareaField from "../../../components/fields/Textarea";
 import SelectField from "../../../components/fields/Select";
 
+import TeamsClient from "../../../services/teams";
+
 export default function ({ dispatch, job, nextStep }) {
+  const teamsClient = new TeamsClient();
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [team, setTeam] = useState();
@@ -19,6 +22,17 @@ export default function ({ dispatch, job, nextStep }) {
   ]);
   const [minExperience, setMinExperience] = useState();
   const [maxExperience, setMaxExperience] = useState();
+
+  useEffect(() => {
+    teamsClient.list().then(({ data }) => {
+      if (!data.status) return;
+      const teams_ = data.teams.map((t) => {
+        return { ...t, value: t.id };
+      });
+      setTeams(teams_);
+    });
+    return () => teamsClient.cancel();
+  }, []);
 
   const saveAndMove = () => {
     dispatch({ type: "step_one", title, team, summary, minExperience, maxExperience });
@@ -47,7 +61,7 @@ export default function ({ dispatch, job, nextStep }) {
         </div>
 
         <div className="w-full mb-6">
-          <p className="font-medium mb-1 text-gray-700">Experience</p>
+          <p className="font-medium mb-1 text-gray-700">Experience (in years)</p>
           <div className="h-11 w-full flex">
             <div className="w-6/12 pr-2">
               <InputTextField type="number" onChange={setMinExperience} placeholder="Min. experience" />

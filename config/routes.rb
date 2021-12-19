@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'main/index'
   devise_for :users
 
   root to: 'home#index'
@@ -10,6 +9,8 @@ Rails.application.routes.draw do
 
   constraints lambda { |req| req.format == :json } do
     get '/timezones' => "application#available_timezones"
+    
+    resources :teams, only: [:index, :create, :update]
 
     resources :jobs, only: [:create, :index, :show, :update, :destroy], param: :job_id do
       member do

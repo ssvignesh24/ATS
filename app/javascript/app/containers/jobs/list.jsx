@@ -5,12 +5,21 @@ import pluralize from "pluralize";
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
+import JobsClient from "../../services/jobs";
+
 export default function ({ children }) {
+  const jobsClient = new JobsClient();
   const [state, setState] = useState("loading");
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    setJobs([{ id: 3, title: "Software engineer III", location: "Chennai, India", experience: [2, null] }]);
+    jobsClient.list().then(({ data }) => {
+      if (!data.status) {
+        setState("error");
+        return;
+      }
+      setJobs(data.jobs);
+    });
     setState("loaded");
   }, []);
 
@@ -37,12 +46,14 @@ export default function ({ children }) {
           <>
             {jobs.length > 0 && (
               <>
-                <div className="grid grid-cols-4 gap-4 mt-5">
+                <div className="grid grid-cols-3 gap-4 mt-5">
                   {jobs.map((job) => {
                     return (
                       <div className="box p-5 cursor-pointer" key={job.id}>
                         <p className="font-medium">{job.title}</p>
-                        <p className="text-sm">{job.location}</p>
+                        <p className="text-sm">{job.locations[0]?.text}</p>
+                        <hr className="my-3" />
+                        <p className="mt-3">{job.summary}</p>
                       </div>
                     );
                   })}

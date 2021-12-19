@@ -151,7 +151,7 @@ export default function ({ dispatch, job, nextStep, prevStep }) {
         </div>
         <div className="w-full mb-8">
           <p className="font-medium ">No. of open positions</p>
-          <p className="text-gray-500 mb-2 text-sm">Please enter 0 if the position can be applied by freshers</p>
+          <p className="text-gray-500 mb-2 text-sm">Please enter 0 if there is no constrain </p>
           <div className="h-11">
             <InputTextField
               type="number"

@@ -3,6 +3,7 @@ class CreateJobs < ActiveRecord::Migration[6.1]
     create_table :jobs do |t|
       t.references :account, null: false, foreign_key: { to_table: :accounts, name: :jobs_account_id_fkey }
       t.text :title, null: false
+      t.text :summary
       t.bigint :created_by_id, null: false, foreign_key: { to_table: :users, name: :jobs_created_by_id_fkey }
       t.references :team, null: false, foreign_key: { to_table: :teams, name: :jobs_team_id_fkey }
       t.string :remote_type
