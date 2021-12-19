@@ -1,6 +1,8 @@
 show_all ||= false
 
-json.(job, :id, :title, :summary)
+json.(job, :id, :title, :summary, :slug, :description)
+json.employmentTypeText job.employment_type_text
+json.experienceText job.experience_text
 json.team do
   json.(job.team, :id, :name)
 end

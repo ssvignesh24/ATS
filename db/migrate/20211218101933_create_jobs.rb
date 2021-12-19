@@ -8,11 +8,15 @@ class CreateJobs < ActiveRecord::Migration[6.1]
       t.references :team, null: false, foreign_key: { to_table: :teams, name: :jobs_team_id_fkey }
       t.string :remote_type
       t.integer :open_positions
+      t.text :slug, null: false
       t.decimal :min_experience_in_years, null: false
       t.decimal :max_experience_in_years
       t.string :employment_type, null: false
       t.jsonb :visibility_config, null: false
       t.text :degree_qualifications, array: true, null: false
+      t.boolean :active, null: false
+
+      t.index :slug, unique: true
 
       t.timestamps
     end

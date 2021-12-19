@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { Link } from "@reach/router";
 
 import JobsClient from "../../services/jobs";
+import _ from "lodash";
 
 export default function ({ children }) {
   const jobsClient = new JobsClient();
@@ -42,6 +43,22 @@ export default function ({ children }) {
         </div>
       </div>
       <div className="w-full">
+        {state == "loading" && (
+          <div className="grid grid-cols-3 gap-4 mt-5">
+            {_.times(6, (n) => {
+              return (
+                <div className="box p-5 cursor-pointer" key={n}>
+                  <div className="animate-pulse w-full h-4 mb-3 rounded-xl bg-gray-300"></div>
+                  <div className="animate-pulse w-8/12 h-2 rounded-xl bg-gray-300"></div>
+                  <hr className="my-5" />
+                  <div className="animate-pulse w-full h-2 mb-3 rounded-xl bg-gray-300"></div>
+                  <div className="animate-pulse w-full h-2 mb-3 rounded-xl bg-gray-300"></div>
+                  <div className="animate-pulse w-10/12 h-2 rounded-xl bg-gray-300"></div>
+                </div>
+              );
+            })}
+          </div>
+        )}
         {state == "loaded" && (
           <>
             {jobs.length > 0 && (
@@ -57,7 +74,10 @@ export default function ({ children }) {
                           <p className="font-medium">{job.title}</p>
                           <p className="text-sm">{job.locations[0]?.text}</p>
                           <hr className="my-3" />
-                          <p className="mt-3">{job.summary}</p>
+                          <div className="mt-3 max-h-24 overflow-hidden text-ellipsis">
+                            {job.summary.substring(0, 180)}
+                            {job.summary.length > 180 && "..."}
+                          </div>
                         </div>
                       </Link>
                     );

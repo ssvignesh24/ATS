@@ -4,5 +4,5 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 export default function ({ children }) {
-  return <div className="mx-auto h-full p-7">Overview</div>;
+  return <div className="h-full">{children}</div>;
 }

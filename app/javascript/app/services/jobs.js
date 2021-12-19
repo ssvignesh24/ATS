@@ -19,4 +19,8 @@ export default class Jobs extends Network{
     return this.post(`/jobs.json`, { job: details})
   }
 
+  details(jobSlug){
+    return this.get(`/job/${jobSlug}.json`)
+  }
+
 }

@@ -1,4 +1,7 @@
 class JobsController < ApiController
+  skip_around_action :as_api, only: :page
+  skip_before_action :authenticate_user!, only: [:page, :details]
+
   def index
     @jobs = current_account.jobs
   end
@@ -18,6 +21,7 @@ class JobsController < ApiController
       @job.open_positions = job_params[:open_positions_count]
       @job.employment_type = job_params[:employment_type]
       @job.degree_qualifications = job_params[:degrees]
+      @job.description = job_params[:description]
       @job.visibility_config = {}
       @job.save!
       job_params[:locations].each do |loc|
@@ -41,6 +45,14 @@ class JobsController < ApiController
   end
 
   def deactivate
+  end
+
+  def page
+    render layout: 'candidate_app'
+  end
+
+  def details
+    @job = Job.where(slug: params[:slug]).take
   end
 
   private
