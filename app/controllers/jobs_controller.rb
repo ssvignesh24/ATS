@@ -1,9 +1,11 @@
-class JobsController < ApplicationController
+class JobsController < ApiController
   def index
     @jobs = current_account.jobs
   end
 
   def show
+    @job = current_account.jobs.where(id: params[:job_id]).take
+    raise ApiError::NotFound.new("Invalid job") unless @job.present?
   end
 
   def create

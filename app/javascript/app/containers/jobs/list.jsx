@@ -1,9 +1,9 @@
 /** @format */
 
-import { Link } from "@reach/router";
 import pluralize from "pluralize";
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { Link } from "@reach/router";
 
 import JobsClient from "../../services/jobs";
 
@@ -24,7 +24,7 @@ export default function ({ children }) {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="container mx-auto">
       <div className="w-full flex">
         <div className="w-6/12">
           <p className="font-medium text-xl">All Jobs</p>
@@ -49,12 +49,17 @@ export default function ({ children }) {
                 <div className="grid grid-cols-3 gap-4 mt-5">
                   {jobs.map((job) => {
                     return (
-                      <div className="box p-5 cursor-pointer" key={job.id}>
-                        <p className="font-medium">{job.title}</p>
-                        <p className="text-sm">{job.locations[0]?.text}</p>
-                        <hr className="my-3" />
-                        <p className="mt-3">{job.summary}</p>
-                      </div>
+                      <Link to={`/jobs/${job.id}`} key={job.id}>
+                        <div className="box p-5 cursor-pointer">
+                          <div className="bg-purple-600 inline-block px-2 py-1 mb-1 rounded text-xs text-white">
+                            {job.team.name}
+                          </div>
+                          <p className="font-medium">{job.title}</p>
+                          <p className="text-sm">{job.locations[0]?.text}</p>
+                          <hr className="my-3" />
+                          <p className="mt-3">{job.summary}</p>
+                        </div>
+                      </Link>
                     );
                   })}
                 </div>
